@@ -60,6 +60,7 @@ from epydoc import log
 from epydoc.util import plaintext_to_html, plaintext_to_latex
 import epydoc
 from epydoc.compat import basestring
+import importlib
 
 ##################################################
 ## Contents
@@ -162,12 +163,15 @@ def parse(docstring, markup='plaintext', errors=None, **options):
 
     # If it's a string, then it names a function to import.
     if isinstance(parse_docstring, basestring):
-        try: exec('from %s import parse_docstring' % parse_docstring)
+        try:
+            module = importlib.import_module(parse_docstring)
+            #exec('from %s import parse_docstring' % parse_docstring)
         except ImportError as e:
             _parse_warn('Error importing %s for markup language %s: %s' %
                         (parse_docstring, markup, e))
             import epydoc.markup.plaintext as plaintext
             return plaintext.parse_docstring(docstring, errors, **options)
+        parse_docstring = module.parse_docstring
         _markup_language_registry[markup] = parse_docstring
 
     # Keep track of which markup languages have been used so far.
