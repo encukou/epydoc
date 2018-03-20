@@ -11,3 +11,8 @@ Backwards compatibility with previous versions of Python.
 """
 __docformat__ = 'epytext'
 
+
+try:
+    import builtins
+except ImportError:
+    import __builtin__ as builtins

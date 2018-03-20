@@ -37,7 +37,7 @@ from epydoc.docintrospecter import introspect_docstring_lineno
 from epydoc.util import py_src_filename
 from epydoc import log
 import epydoc.docparser
-import __builtin__, exceptions
+from epydoc.compat import builtins
 
 ######################################################################
 # Docstring Fields
@@ -480,7 +480,7 @@ def report_errors(api_doc, docindex, parse_errors, field_warnings):
     if isinstance(api_doc, ValueDoc) and api_doc != module:
         if module not in (None, UNKNOWN) and module.pyval is exceptions:
             return
-        for builtin_val in __builtin__.__dict__.values():
+        for builtin_val in builtins.__dict__.values():
             if builtin_val is api_doc.pyval:
                 return
         
