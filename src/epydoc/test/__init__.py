@@ -41,9 +41,9 @@ def main():
             for i, val in enumerate(pieces):
                 if (isinstance(val, doctest.Example) and
                     ((val.options.get(PY24, False) and
-                      sys.version[:2] < (2,4)) or
+                      sys.version_info[:2] < (2,4)) or
                      (val.options.get(PY25, False) and
-                      sys.version[:2] < (2,5)))):
+                      sys.version_info[:2] < (2,5)))):
                     pieces[i] = doctest.Example('1', '1')
             return pieces
 
