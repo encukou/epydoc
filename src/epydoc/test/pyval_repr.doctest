@@ -251,7 +251,7 @@ The ``min_score`` arg to colorize can be used to set a cutoff-point for
 scores; if the score is too low, then `PyvalColorizer.colorize` will return ``None``.
 
     >>> def color2(v):
-    ...     colorizer = PyvalColorizer(linelen=40)
+    ...     colorizer = PyvalColorizer(linelen=50)
     ...     pds = colorizer.colorize(v)
     ...     print 'repr: %s' % pds.to_plaintext(None)
     ...     print 'score: %s (%s)' % (pds.score, pds.score>0 and 'ok' or 'bad')
