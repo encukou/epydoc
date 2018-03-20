@@ -75,7 +75,7 @@ from epydoc.docparser import parse_docs, ParseError
 from epydoc.docstringparser import parse_docstring
 from epydoc import log
 from epydoc.util import *
-from epydoc.compat import builtins
+from epydoc.compat import builtins, basestring
 
 ######################################################################
 ## 1. build_doc()

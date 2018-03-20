@@ -17,6 +17,7 @@ Miscellaneous utility functions that are used by multiple modules.
 __docformat__ = 'epytext en'
 
 import os, os.path, re, sys
+from epydoc.compat import basestring
 
 ######################################################################
 ## Python Source Types

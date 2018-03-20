@@ -79,6 +79,7 @@ import sys
 from optparse import OptionValueError
 
 from epydoc import log
+from epydoc.compat import basestring
 
 class UrlGenerator:
     """

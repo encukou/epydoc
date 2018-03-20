@@ -16,3 +16,8 @@ try:
     import builtins
 except ImportError:
     import __builtin__ as builtins
+
+try:
+    basestring = builtins.basestring
+except AttributeError:
+    basestring = (str, )

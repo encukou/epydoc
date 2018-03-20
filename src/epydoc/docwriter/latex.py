@@ -23,6 +23,7 @@ from epydoc import markup
 from epydoc.util import plaintext_to_latex
 import epydoc.markup
 from epydoc.docwriter.latex_sty import STYLESHEETS
+from epydoc.compat import basestring
 
 class LatexWriter:
     #: Expects (options, epydoc_sty_package)

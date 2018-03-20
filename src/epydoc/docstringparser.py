@@ -37,7 +37,7 @@ from epydoc.docintrospecter import introspect_docstring_lineno
 from epydoc.util import py_src_filename
 from epydoc import log
 import epydoc.docparser
-from epydoc.compat import builtins
+from epydoc.compat import builtins, basestring
 
 ######################################################################
 # Docstring Fields

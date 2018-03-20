@@ -111,6 +111,7 @@ import re, string, types, sys, os.path
 from epydoc.markup import *
 from epydoc.util import wordwrap, plaintext_to_html, plaintext_to_latex
 from epydoc.markup.doctest import doctest_to_html, doctest_to_latex
+from epydoc.compat import basestring
 
 ##################################################
 ## DOM-Like Encoding

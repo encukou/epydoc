@@ -67,7 +67,7 @@ from epydoc.apidoc import *
 import epydoc.docintrospecter 
 # Misc utility functions:
 from epydoc.util import *
-from epydoc.compat import builtins
+from epydoc.compat import builtins, basestring
 
 ######################################################################
 ## Doc Parser

@@ -4,6 +4,7 @@ Regression Testing for epydoc.cli
 A helper function to check the behavior of parse_arguments:
 
     >>> import sys, epydoc.cli
+    >>> from epydoc.compat import basestring
     >>> def parse_arguments(argv):
     ...     defaults = epydoc.cli.option_defaults()
     ...     if isinstance(argv, basestring): argv = argv.split()

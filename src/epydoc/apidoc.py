@@ -43,7 +43,7 @@ from epydoc import log
 import epydoc
 from epydoc.util import decode_with_backslashreplace, py_src_filename
 import epydoc.markup.pyval_repr
-from epydoc.compat import builtins
+from epydoc.compat import builtins, basestring
 
 ######################################################################
 # Dotted Names

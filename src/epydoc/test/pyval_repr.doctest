@@ -2,6 +2,7 @@ Regression Testing for epydoc.markup.pyval_repr
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     >>> from epydoc.markup.pyval_repr import *
+    >>> from epydoc.compat import basestring
     >>> colorizer = PyvalColorizer(linelen=40)
     >>> def color(v, linebreakok=True):
     ...     colorizer = PyvalColorizer(linelen=40, linebreakok=linebreakok)
