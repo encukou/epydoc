@@ -17,7 +17,7 @@ __docformat__ = 'epytext en'
 ## Imports
 ##################################################
 
-import re, sys, os.path, string
+import re, sys, os.path
 from xml.dom.minidom import Text as _Text
 from epydoc.apidoc import *
 from epydoc.compat import basestring
