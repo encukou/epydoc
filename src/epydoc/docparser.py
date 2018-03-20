@@ -1348,7 +1348,7 @@ def process_docstring(line, parent_docs, prev_line_doc, lineno,
     # According to a strict reading of PEP 263, this might not be the
     # right thing to do; but it will almost always be what the
     # module's author intended.
-    if isinstance(docstring, str):
+    if isinstance(docstring, bytes):
         try:
             docstring = docstring.decode(encoding)
         except UnicodeDecodeError:
