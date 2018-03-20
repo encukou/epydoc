@@ -19,8 +19,10 @@ from epydoc import log
 from epydoc.util import py_src_filename
 from epydoc.apidoc import *
 import tokenize, token, cgi, keyword
-try: from cStringIO import StringIO
-except: from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 ######################################################################
 ## Python source colorizer
