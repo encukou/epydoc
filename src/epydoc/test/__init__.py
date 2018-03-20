@@ -38,6 +38,9 @@ def main():
         +PYTHON2.4 and +PYTHON2.5.
         """
         def parse(self, string, name='<string>'):
+            if sys.version_info > (3, 0):
+                # HACK: Convert <u'string'> to <'strings'>
+                string = string.replace("u'", "'")
             pieces = doctest.DocTestParser.parse(self, string, name)
             for i, val in enumerate(pieces):
                 if (isinstance(val, doctest.Example) and
