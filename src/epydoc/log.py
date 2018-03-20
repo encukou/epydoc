@@ -21,6 +21,7 @@ to progress displays; but also with respect to message blocks).
 
 @group Message Severity Levels: DEBUG, INFO, WARNING, ERROR, FATAL
 """
+from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import sys, os
@@ -123,7 +124,7 @@ class SimpleLogger(Logger):
     def __init__(self, threshold=WARNING):
         self.threshold = threshold
     def log(self, level, message):
-        if level >= self.threshold: print message
+        if level >= self.threshold: print(message)
         
 ######################################################################
 # Logger Registry

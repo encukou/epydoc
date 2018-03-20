@@ -9,6 +9,7 @@
 """
 Plaintext output generation.
 """
+from __future__ import print_function
 __docformat__ = 'epytext en'
 
 from epydoc.apidoc import *
@@ -32,8 +33,8 @@ class PlaintextWriter:
             else:
                 assert 0, ('%s not handled yet' % api_doc.__class__)
         except Exception, e:
-            print '\n\n'
-            print ''.join(result)
+            print('\n\n')
+            print(''.join(result))
             raise
 
         return ''.join(result)

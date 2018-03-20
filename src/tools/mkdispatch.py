@@ -7,6 +7,7 @@ referring to it as anchor in an html file.
 """
 
 # $Id$
+from __future__ import print_function
 __version__ = "$Revision$"[11:-2]
 __author__ = "Daniele Varrazzo"
 __copyright__ = "Copyright (C) 2007 by Daniele Varrazzo"
@@ -49,5 +50,5 @@ def get_anchor(s):
 if __name__ == '__main__':
     for fn in sys.argv[1:]:
         for dir in parse_pairs(fn):
-            print dir
+            print(dir)
 

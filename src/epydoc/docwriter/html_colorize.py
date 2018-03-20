@@ -11,6 +11,7 @@ Functions to produce colorized HTML code for various objects.
 Currently, C{html_colorize} defines functions to colorize
 Python source code.
 """
+from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import re, codecs
@@ -748,7 +749,7 @@ class PythonSourceColorizer:
                 try:
                     s += self.add_line_numbers(cgi.escape(toktext), css_class)
                 except Exception, e:
-                    print (toktext, css_class, toktext.encode('ascii'))
+                    print((toktext, css_class, toktext.encode('ascii')))
                     raise
 
             if onclick: s += "</a></tt>"

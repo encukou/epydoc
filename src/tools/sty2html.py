@@ -2,6 +2,7 @@
 #
 # Convert epydoc's LaTeX sty files to HTML
 
+from __future__ import print_function
 from epydoc.docwriter.latex_sty import STYLESHEETS
 import re, sys, os.path
 
@@ -84,7 +85,7 @@ def colorize(s, title):
 
 def main():
     if len(sys.argv) != 2:
-        print 'Usage: %s <output-dir>' % sys.argv[0]
+        print('Usage: %s <output-dir>' % sys.argv[0])
         sys.exit(-1)
 
     # hackish to hardcode this; oh well.

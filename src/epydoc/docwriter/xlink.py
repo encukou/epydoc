@@ -68,6 +68,7 @@ API Linking Options::
 """
 
 # $Id$
+from __future__ import print_function
 __version__ = "$Revision$"[11:-2]
 __author__ = "Daniele Varrazzo"
 __copyright__ = "Copyright (C) 2007 by Daniele Varrazzo"
@@ -506,7 +507,7 @@ class ApiLinkReader(Reader):
                     set_api_root(name, root)
 
         except OptionValueError, exc:
-            print >>sys.stderr, "%s: %s" % (exc.__class__.__name__, exc)
+            print("%s: %s" % (exc.__class__.__name__, exc), file=sys.stderr)
             sys.exit(2)
 
     read_configuration = classmethod(read_configuration)

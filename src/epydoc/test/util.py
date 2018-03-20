@@ -9,6 +9,7 @@
 """
 Utility functions used by the regression tests (C{*.doctest}).
 """
+from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import tempfile, re, os, os.path, textwrap, sys
@@ -61,7 +62,7 @@ def runbuilder(s, attribs='', build=None, exclude=''):
     s = re.sub(r"(<module 'epydoc_test' from ).*", r'\1...', s)
     s = re.sub(r"(<function \w+ at )0x\w+>", r"\1...>", s)
     s = re.sub(r"(<\w+ object at )0x\w+>", r"\1...>", s)
-    print s
+    print(s)
     # Clean up.
     cleanup_tmp_dir(tmp_dir)
 
@@ -89,7 +90,7 @@ def runparser(s, attribs='', show=None, exclude=''):
     # Display it.
     s = val_doc.pp(include=attribs.split(), exclude=exclude.split())
     s = re.sub(r"filename = .*", "filename = ...", s)
-    print s
+    print(s)
     # Clean up.
     cleanup_tmp_dir(tmp_dir)
 
@@ -121,7 +122,7 @@ def runintrospecter(s, attribs='', introspect=None, exclude=''):
     s = re.sub(r"(<module 'epydoc_test' from ).*", r'\1...', s)
     s = re.sub(r"(<function \w+ at )0x\w+>", r"\1...>", s)
     s = re.sub(r"(<\w+ object at )0x\w+>", r"\1...>", s)
-    print s
+    print(s)
     # Clean up.
     cleanup_tmp_dir(tmp_dir)
 
@@ -206,7 +207,7 @@ def print_docstring_as_html(self, parsed_docstring, *varargs, **kwargs):
     s = parsed_docstring.to_html(None).strip()
     s = s.encode('ascii', 'xmlcharrefreplace')
     s = remove_surrogates(s)
-    print s
+    print(s)
     return ''
 
 def remove_surrogates(s):

@@ -28,6 +28,7 @@ Usage::
 @todo: Use ini-style project files, rather than pickles (using the
 same format as the CLI).
 """
+from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import sys, os.path, re, glob
@@ -1087,22 +1088,22 @@ def _version():
     @rtype: C{None}
     """
     import epydoc
-    print "Epydoc version %s" % epydoc.__version__
+    print("Epydoc version %s" % epydoc.__version__)
     sys.exit(0)
 
 # At some point I could add:
 #   --show-messages, --hide-messages
 #   --show-options, --hide-options
 def _usage():
-    print
-    print 'Usage: epydocgui [OPTIONS] [FILE.prj | MODULES...]'
-    print
-    print '    FILE.prj                  An epydoc GUI project file.'
-    print '    MODULES...                A list of Python modules to document.'
-    print '    -V, --version             Print the version of epydoc.'
-    print '    -h, -?, --help, --usage   Display this usage message'
-    print '    --debug                   Do not suppress error messages'
-    print
+    print()
+    print('Usage: epydocgui [OPTIONS] [FILE.prj | MODULES...]')
+    print()
+    print('    FILE.prj                  An epydoc GUI project file.')
+    print('    MODULES...                A list of Python modules to document.')
+    print('    -V, --version             Print the version of epydoc.')
+    print('    -h, -?, --help, --usage   Display this usage message')
+    print('    --debug                   Do not suppress error messages')
+    print()
     sys.exit(0)
 
 def _error(s):
@@ -1110,7 +1111,7 @@ def _error(s):
     if len(s) > 80:
         i = s.rfind(' ', 0, 80)
         if i>0: s = s[:i]+'\n'+s[i+1:]
-    print >>sys.stderr, s
+    print(s, file=sys.stderr)
     sys.exit(1)
     
 def gui():
