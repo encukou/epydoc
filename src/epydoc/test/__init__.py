@@ -19,7 +19,7 @@ def main():
     except:
         print ("\n"
             "The regression test suite requires a more recent version of\n"
-            "doctest (e.g., the version that ships with Python 2.4 or 2.5).\n"
+            "doctest (e.g., the version that ships with Python 2.7).\n"
             "Please place a new version of doctest on your path before \n"
             "running the test suite.\n")
         return
