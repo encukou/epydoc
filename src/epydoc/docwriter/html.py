@@ -147,7 +147,8 @@ def compile_template(docstring, template_string,
     #log.debug(pysrc)
     if debug: localdict = {'__debug': (pysrc_lines, func_name)}
     else: localdict = {}
-    try: exec pysrc in globals(), localdict
+    try:
+        exec(pysrc, globals(), localdict)
     except SyntaxError:
         log.error('Error in script:\n' + pysrc + '\n')
         raise
