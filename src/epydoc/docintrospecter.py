@@ -524,7 +524,10 @@ def isclass(object):
     """
     return isinstance(object, tuple(_CLASS_TYPES))
 
-_CLASS_TYPES = set([TypeType, ClassType])
+try:
+    _CLASS_TYPES = set([TypeType, ClassType])
+except NameError:
+    _CLASS_TYPES = {type}
 """A list of types that should be treated as classes."""
 
 def register_class_type(typ):
