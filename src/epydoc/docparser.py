@@ -67,7 +67,7 @@ from epydoc.apidoc import *
 import epydoc.docintrospecter 
 # Misc utility functions:
 from epydoc.util import *
-from epydoc.compat import builtins, basestring
+from epydoc.compat import builtins, basestring, PY3
 
 ######################################################################
 ## Doc Parser
@@ -529,9 +529,12 @@ def process_file(module_doc):
         module_file = codecs.open(module_doc.filename, 'rU', encoding)
     except LookupError:
         log.warning("Unknown encoding %r for %s; using the default"
-                    "encoding instead (iso-8859-1)" %
+                    "encoding instead" %
                     (encoding, module_doc.filename))
-        encoding = 'iso-8859-1'
+        if PY3:
+            encoding = 'utf-8'
+        else:
+            encoding = 'iso-8859-1'
         module_file = codecs.open(module_doc.filename, 'rU', encoding)
     tok_iter = tokenize.generate_tokens(module_file.readline)
     last_toktype = None
@@ -606,7 +609,8 @@ def process_file(module_doc):
             if lineno is None: lineno = srow
             if toktype == token.STRING:
                 str_prefixes = re.match('[^\'"]*', toktext).group()
-                if 'u' not in str_prefixes:
+                if ('b' in str_prefixes) or (
+                        not PY3 and 'u' not in str_prefixes):
                     s = toktext.encode(encoding)
                     toktext = decode_with_backslashreplace(s)
             line_toks.append( (toktype, toktext) )

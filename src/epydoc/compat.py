@@ -11,6 +11,7 @@ Backwards compatibility with previous versions of Python.
 """
 __docformat__ = 'epytext'
 
+import sys
 
 try:
     import builtins
@@ -21,3 +22,6 @@ try:
     basestring = builtins.basestring
 except AttributeError:
     basestring = (str, )
+
+
+PY3 = sys.version_info >= (3, 0)
