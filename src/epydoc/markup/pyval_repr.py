@@ -200,7 +200,7 @@ class PyvalColorizer:
             self._multiline(self._colorize_iter, self._sort(pyval),
                             state, 'frozenset([', '])')
         elif pyval_type is dict:
-            self._multiline(self._colorize_dict, self._sort(pyval.items()),
+            self._multiline(self._colorize_dict, self._sort(list(pyval.items())),
                             state, '{', '}')
         elif is_re_pattern(pyval):
             self._colorize_re(pyval, state)

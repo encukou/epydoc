@@ -696,14 +696,10 @@ class HTMLWriter:
         # Report any failed crossreferences
         if self._failed_xrefs:
             estr = 'Failed identifier crossreference targets:\n'
-            failed_identifiers = self._failed_xrefs.keys()
-            failed_identifiers.sort()
-            for identifier in failed_identifiers:
-                names = self._failed_xrefs[identifier].keys()
-                names.sort()
+            for identifier in sorted(self._failed_xrefs.keys()):
                 estr += '- %s' % identifier
                 estr += '\n'
-                for name in names:
+                for name in sorted(self._failed_xrefs[identifier].keys()):
                     estr += '      (from %s)\n' % name
             log.docstring_warning(estr)
 
@@ -2996,7 +2992,7 @@ class HTMLWriter:
                 for (field, arg, descr) in doc.metadata:
                     if field.tags[0] == field_name:
                         descrs.setdefault(arg, []).append(descr)
-            for (arg, descr_list) in descrs.iteritems():
+            for (arg, descr_list) in descrs.items():
                 index.setdefault(arg, []).append( (doc, descr_list) )
         return index
 
@@ -3102,13 +3098,13 @@ class HTMLWriter:
         skip = (ModuleDoc, ClassDoc, type(UNKNOWN))
         for val_doc in self.module_list:
             self.write_url_record(out, val_doc)
-            for var in val_doc.variables.itervalues():
+            for var in val_doc.variables.values():
                 if not isinstance(var.value, skip):
                     self.write_url_record(out, var)
 
         for val_doc in self.class_list:
             self.write_url_record(out, val_doc)
-            for var in val_doc.variables.itervalues():
+            for var in val_doc.variables.values():
                 self.write_url_record(out, var)
 
     def write_url_record(self, out, obj):

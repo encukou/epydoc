@@ -973,7 +973,7 @@ class NamespaceDoc(ValueDoc):
         imports = filters.get('imports', True)
         private = filters.get('private', True)
         if variables and imports and private:
-            return self.variables.values() # list the common case first.
+            return list(self.variables.values()) # list the common case first.
         elif not variables:
             return []
         elif not imports and not private:
@@ -1018,9 +1018,7 @@ class NamespaceDoc(ValueDoc):
                     
     
         # Add any remaining variables in alphabetical order.
-        var_docs = unsorted.items()
-        var_docs.sort()
-        for name, var_doc in var_docs:
+        for name, var_doc in sorted(unsorted.items()):
             self.sorted_variables.append(var_doc)
 
     def init_variable_groups(self):
@@ -2148,7 +2146,7 @@ def pp_apidoc(api_doc, doublespace=0, depth=5, exclude=(), include=(),
                           (field is fields[-1]))
         elif (isinstance(fieldval, dict) and
               len(fieldval)>0 and 
-              isinstance(fieldval.values()[0], APIDoc)):
+              isinstance(list(fieldval.values())[0], APIDoc)):
             s += _pp_dict(api_doc, fieldval, doublespace, 
                           depth, exclude, include, backpointers,
                           (field is fields[-1]))
@@ -2178,8 +2176,7 @@ def _pp_list(api_doc, items, doublespace, depth, exclude, include,
 
 def _pp_dict(api_doc, dict, doublespace, depth, exclude, include,
               backpointers, is_last):
-    items = dict.items()
-    items.sort()
+    items = sorted(dict.items())
     line1 = (is_last and ' ') or '|'
     s = ''
     for item in items:

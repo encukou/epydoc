@@ -271,7 +271,7 @@ class EpydocGUI:
         # *not* reload the modules that are present when the EpydocGUI
         # is created, but that should only contain some builtins, some
         # epydoc modules, Tkinter, pickle, and thread..
-        self._old_modules = sys.modules.keys()
+        self._old_modules = list(sys.modules.keys())
 
         # Create the main window.
         self._root = Tk()
@@ -663,12 +663,11 @@ class EpydocGUI:
         self._help_browse.grid(row=row, column=3, sticky='ew', padx=2)
         
         from epydoc.docwriter.html_css import STYLESHEETS
-        items = STYLESHEETS.items()
-        def _css_sort(css1, css2):
-            if css1[0] == 'default': return -1
-            elif css2[0] == 'default': return 1
-            else: return cmp(css1[0], css2[0])
-        items.sort(_css_sort)
+        def _css_sort(css):
+            if css == 'default':
+                return (0, css)
+            return (1, css)
+        items = sorted(STYLESHEETS.items(), key=_css_sort)
 
         #==================== oframe6 ====================
         # -c CSS, --css CSS
