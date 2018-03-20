@@ -510,7 +510,7 @@ class PythonSourceColorizer:
         """
         # If we encounter any errors, then just give up.
         if toktype == token.ERRORTOKEN:
-            raise tokenize.TokenError, toktype
+            raise tokenize.TokenError(toktype)
 
         # Did we skip anything whitespace?  If so, add a pseudotoken
         # for it, with toktype=None.  (Note -- this skipped string

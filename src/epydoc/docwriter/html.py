@@ -389,7 +389,7 @@ class HTMLWriter:
         # Make sure inheritance has a sane value.
         if self._inheritance not in ('listed', 'included',
                                      'grouped', 'hidden'):
-            raise ValueError, 'Bad value for inheritance'
+            raise ValueError('Bad value for inheritance')
 
         # Create the project homepage link, if it was not specified.
         if (self._prj_name or self._prj_url) and not self._prj_link:
@@ -3248,7 +3248,7 @@ class HTMLWriter:
         elif obj == 'trees':
             return self._trees_url
         else:
-            raise ValueError, "Don't know what to do with %r" % obj
+            raise ValueError("Don't know what to do with %r" % obj)
 
     def pysrc_link(self, api_doc):
         if not self._incl_sourcecode:
