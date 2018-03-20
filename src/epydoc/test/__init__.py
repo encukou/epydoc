@@ -31,6 +31,9 @@ def main():
     
     PY25 = doctest.register_optionflag('PYTHON2.5')
     """Flag indicating that a doctest example requires Python 2.5+"""
+
+    PY2ONLY = doctest.register_optionflag('PYTHON2ONLY')
+    """Flag indicating that a doctest example requires Python 2.x, not 3"""
     
     class DocTestParser(doctest.DocTestParser):
         """
@@ -47,7 +50,9 @@ def main():
                     ((val.options.get(PY24, False) and
                       sys.version_info[:2] < (2,4)) or
                      (val.options.get(PY25, False) and
-                      sys.version_info[:2] < (2,5)))):
+                      sys.version_info[:2] < (2,5)) or
+                     (val.options.get(PY2ONLY, False) and
+                      sys.version_info[:2] >= (3, 0)))):
                     pieces[i] = doctest.Example('1', '1')
             return pieces
 

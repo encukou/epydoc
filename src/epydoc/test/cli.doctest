@@ -15,7 +15,7 @@ A helper function to check the behavior of parse_arguments:
     ...             if isinstance(val, dict):
     ...                 val = '{%s}' % ', '.join(sorted(
     ...                     ['%r: %r' % pair for pair in val.items()]))
-    ...             print '%20s: %s' % (opt, val)
+    ...             print('%20s: %s' % (opt, val))
 
 Basic test:
     >>> parse_arguments('epydoc sys')

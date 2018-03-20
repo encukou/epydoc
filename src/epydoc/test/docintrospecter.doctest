@@ -89,7 +89,7 @@ Unlike the parser, arbitrary computed values can be extracted:
     >>> runintrospecter(s="""
     ...     def f(x):
     ...         if x>100: return x
-    ...         else: return f((x+2)*8/7)
+    ...         else: return f((x+2)*8//7)
     ...     x = f(12)
     ...     """, attribs="variables value pyval")
     ModuleDoc for epydoc_test [0]
@@ -175,7 +175,7 @@ Introspected functions are represented by `RoutineDoc` objects:
     >>> runintrospecter(s="""
     ...     def f(x):
     ...         'docstring for f'
-    ...         print 'inside f'
+    ...         print('inside f')
     ...     """, introspect="f", exclude='defining_module')
     RoutineDoc for epydoc_test.f [0]
      +- canonical_name = DottedName('epydoc_test', 'f')
@@ -199,7 +199,7 @@ of the variable argument and keyword argument, respectively:
     >>> runintrospecter(s="""
     ...     def f(x, y=22, z=(1,), *v, **kw):
     ...         'docstring for f'
-    ...         print 'inside f'
+    ...         print('inside f')
     ...     """, introspect="f", exclude='defining_module')
     RoutineDoc for epydoc_test.f [0]
      +- canonical_name = DottedName('epydoc_test', 'f')
@@ -216,7 +216,8 @@ Tuple arguments are encoded as a single ArgDoc with a complex name:
 
     >>> runintrospecter(s="""
     ...     def f( (x, (y,z)) ): pass""",
-    ...     attribs='variables value posargs posarg_defaults vararg kwarg')
+    ...     attribs='variables value posargs posarg_defaults vararg kwarg',
+    ... ) # doctest: +PYTHON2ONLY
     ModuleDoc for epydoc_test [0]
      +- variables
         +- f => VariableDoc for epydoc_test.f [1]
