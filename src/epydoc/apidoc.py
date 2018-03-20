@@ -1299,7 +1299,7 @@ class ClassDoc(NamespaceDoc):
         if self.is_newstyle_class():
             try:
                 return self._c3_mro(warn_about_bad_bases)
-            except ValueError, e: # (inconsistent hierarchy)
+            except ValueError as e: # (inconsistent hierarchy)
                 log.error('Error finding mro for %s: %s' %
                           (self.canonical_name, e))
                 # Better than nothing:

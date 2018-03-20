@@ -872,7 +872,7 @@ def get_value_from_name(name, globs=None):
     # the requested name refers to a builtin.
     try:
         module = _import(name[0])
-    except ImportError, e:
+    except ImportError as e:
         if globs is None: globs = __builtin__.__dict__
         if name[0] in globs:
             try: return _lookup(globs[name[0]], name[1:])

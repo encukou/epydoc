@@ -523,7 +523,7 @@ def parse_arguments():
         try:
             parse_configfiles(options.configfiles, options, names)
         except (KeyboardInterrupt,SystemExit): raise
-        except Exception, e:
+        except Exception as e:
             if len(options.configfiles) == 1:
                 cf_name = 'config file %s' % options.configfiles[0]
             else:
@@ -873,7 +873,7 @@ def main(options):
     if xlink is not None:
         try:
             xlink.ApiLinkReader.read_configuration(options, problematic=False)
-        except Exception, exc:
+        except Exception as exc:
             log.error("Error while configuring external API linking: %s: %s"
                 % (exc.__class__.__name__, exc))
 
@@ -940,7 +940,7 @@ def main(options):
         except KeyboardInterrupt:
             for logger in loggers: log.remove_logger(logger)
             raise
-        except Exception, e:
+        except Exception as e:
             log.error("Error reading pstat file: %s" % e)
             profile_stats = None
         if profile_stats is not None:
@@ -1053,7 +1053,7 @@ def write_latex(docindex, options):
             try:
                 run_subprocess('pdflatex --version')
                 options.pdfdriver = 'pdflatex'
-            except RunSubprocessError, e:
+            except RunSubprocessError as e:
                 options.pdfdriver = 'latex'
     log.info('%r pdfdriver selected' % options.pdfdriver)
     
@@ -1061,7 +1061,7 @@ def write_latex(docindex, options):
     latex_writer = LatexWriter(docindex, **options.__dict__)
     try:
         latex_writer.write(latex_target)
-    except IOError, e:
+    except IOError as e:
         log.error(e)
         log.end_progress()
         log.start_progress()
@@ -1171,13 +1171,13 @@ def write_latex(docindex, options):
                 dst = os.path.join(oldpath, options.target['pdf'])
                 shutil.copy2('api.pdf', dst)
 
-        except RunSubprocessError, e:
+        except RunSubprocessError as e:
             if running in ('latex', 'pdflatex'):
                 e.out = re.sub(r'(?sm)\A.*?!( LaTeX Error:)?', r'', e.out)
                 e.out = re.sub(r'(?sm)\s*Type X to quit.*', '', e.out)
                 e.out = re.sub(r'(?sm)^! Emergency stop.*', '', e.out)
             log.error("%s failed: %s" % (running, (e.out+e.err).lstrip()))
-        except OSError, e:
+        except OSError as e:
             log.error("%s failed: %s" % (running, e))
     finally:
         os.chdir(oldpath)
@@ -1189,7 +1189,7 @@ def write_latex(docindex, options):
                 for filename in os.listdir(latex_target):
                     os.remove(os.path.join(latex_target, filename))
                 os.rmdir(latex_target)
-            except Exception, e:
+            except Exception as e:
                 log.error("Error cleaning up tempdir %s: %s" %
                           (latex_target, e))
                 

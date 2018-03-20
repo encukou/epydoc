@@ -231,7 +231,7 @@ def parse_docs(filename=None, name=None, context=None, is_script=False):
         # Use a python source version, if possible.
         if not is_script:
             try: filename = py_src_filename(filename)
-            except ValueError, e: raise ImportError('%s' % e)
+            except ValueError as e: raise ImportError('%s' % e)
 
         # Check the cache, first.
         if filename in _moduledoc_cache:
@@ -280,12 +280,12 @@ def parse_docs(filename=None, name=None, context=None, is_script=False):
         # Tokenize & process the contents of the module's source file.
         try:
             process_file(module_doc)
-        except tokenize.TokenError, e:
+        except tokenize.TokenError as e:
             msg, (srow, scol) = e.args
             raise ParseError('Error during parsing: %s '
                              '(%s, line %d, char %d)' %
                              (msg, module_doc.filename, srow, scol))
-        except (IndentationError, UnicodeDecodeError), e:
+        except (IndentationError, UnicodeDecodeError) as e:
             raise ParseError('Error during parsing: %s (%s)' %
                              (e, module_doc.filename))
 
@@ -634,12 +634,12 @@ def process_file(module_doc):
                     prev_line_doc = process_line(
                         shallow_parse(line_toks), parent_docs, prev_line_doc, 
                         lineno, comments, decorators, encoding)
-                except ParseError, e:
+                except ParseError as e:
                     raise ParseError('Error during parsing: invalid '
                                      'syntax (%s, line %d) -- %s' %
                                      (module_doc.filename, lineno, e))
-                except KeyboardInterrupt, e: raise
-                except Exception, e:
+                except KeyboardInterrupt as e: raise
+                except Exception as e:
                     log.error('Internal error during parsing (%s, line '
                               '%s):\n%s' % (module_doc.filename, lineno, e))
                     raise
@@ -1572,7 +1572,7 @@ def process_classdef(line, parent_docs, prev_line_doc, lineno,
         try:
             for base_name in parse_classdef_bases(line[2]):
                 class_doc.bases.append(find_base(base_name, parent_docs))
-        except ParseError, e:
+        except ParseError as e:
             log.warning("Parsing %s (line %s): Unable to extract "
                         "the base list for class '%s'." %
                         (parent_docs[0].filename, lineno, canonical_name))

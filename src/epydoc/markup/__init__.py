@@ -163,7 +163,7 @@ def parse(docstring, markup='plaintext', errors=None, **options):
     # If it's a string, then it names a function to import.
     if isinstance(parse_docstring, basestring):
         try: exec('from %s import parse_docstring' % parse_docstring)
-        except ImportError, e:
+        except ImportError as e:
             _parse_warn('Error importing %s for markup language %s: %s' %
                         (parse_docstring, markup, e))
             import epydoc.markup.plaintext as plaintext
@@ -176,7 +176,7 @@ def parse(docstring, markup='plaintext', errors=None, **options):
     # Parse the docstring.
     try: parsed_docstring = parse_docstring(docstring, errors, **options)
     except KeyboardInterrupt: raise
-    except Exception, e:
+    except Exception as e:
         if epydoc.DEBUG: raise
         log.error('Internal error while parsing a docstring: %s; '
                   'treating docstring as plaintext' % e)

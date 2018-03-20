@@ -239,7 +239,7 @@ def document(options, cancel, done):
         log.error('Cancelled!')
         done[0] ='cancel'
         raise
-    except Exception, e:
+    except Exception as e:
         # We failed.
         log.error('Internal error: %s' % e)
         done[0] ='cancel'
@@ -826,7 +826,7 @@ class EpydocGUI:
                         get_value_from_scriptname(name)
                     else:
                         get_value_from_name(name)
-                except ImportError, e:
+                except ImportError as e:
                     log.error(e)
                     self._update_messages()
                     self._root.bell()
@@ -1057,7 +1057,7 @@ class EpydocGUI:
             #    self._private_css_var.set('-other-')
             #    self._css_entry.insert(0, opts.get('private_css', 'default'))
                                                    
-        except Exception, e:
+        except Exception as e:
             log.error('Error opening %s: %s' % (prjfile, e))
             self._root.bell()
         
@@ -1066,7 +1066,7 @@ class EpydocGUI:
         try:
             opts = self._getopts()
             dump(opts, open(self._filename, 'w'))
-        except Exception, e:
+        except Exception as e:
             if self._filename is None:
                 log.error('Error saving: %s' %  e)
             else:

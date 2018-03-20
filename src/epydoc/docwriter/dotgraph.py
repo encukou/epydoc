@@ -181,7 +181,7 @@ class DotGraph(object):
         psfile.close()
         # Use ps2pdf to generate the pdf output.
         try: run_subprocess(('ps2pdf', '-dEPSCrop', eps_file, pdf_file))
-        except RunSubprocessError, e:
+        except RunSubprocessError as e:
             log.warning("Unable to render Graphviz dot graph (%s):\n"
                             "ps2pdf failed." % self.title)
             return None
@@ -362,7 +362,7 @@ class DotGraph(object):
             result, err = run_subprocess((DOT_COMMAND,)+options,
                                          self.to_dotfile(**kwparam))
             if err: log.warning("Graphviz dot warning(s):\n%s" % err)
-        except OSError, e:
+        except OSError as e:
             log.warning("Unable to render Graphviz dot graph (%s):\n%s" %
                         (self.title, e))
             import tempfile, epydoc
@@ -1507,7 +1507,7 @@ def get_dot_version():
                 _dot_version = [int(x) for x in m.group(1).split('.')]
             else:
                 _dot_version = (0,)
-        except OSError, e:
+        except OSError as e:
             log.error('dot executable not found; graphs will not be '
                       'generated.  Adjust your shell\'s path, or use '
                       '--dotpath to specify the path to the dot '
