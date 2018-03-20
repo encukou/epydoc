@@ -325,6 +325,9 @@ UNDOCUMENTED_CLASS_VARS = (
     '__doc__', '__module__', '__dict__', '__weakref__', '__slots__',
     '__pyx_vtable__', '__metaclass__')
 
+class DummyClass:
+    """Class used for determining the default metaclass"""
+
 def introspect_class(cls, class_doc, module_name=None):
     """
     Add API documentation information about the class C{cls}
@@ -344,7 +347,8 @@ def introspect_class(cls, class_doc, module_name=None):
         except: pass
 
     # Record the class's metaclass
-    class_doc.metaclass = introspect_docs(type(cls))
+    if type(cls) is not type(DummyClass):
+        class_doc.metaclass = introspect_docs(type(cls))
 
     # Start a list of subclasses.
     class_doc.subclasses = []
