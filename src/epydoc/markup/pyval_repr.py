@@ -39,6 +39,11 @@ import sre_parse, sre_constants
 
 from epydoc.markup.epytext import Element, ParsedEpytextDocstring
 
+try:
+    long
+except NameError:
+    long = int
+
 def is_re_pattern(pyval):
     return type(pyval).__name__ == 'SRE_Pattern'
 
