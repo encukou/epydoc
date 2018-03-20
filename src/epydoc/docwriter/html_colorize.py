@@ -461,7 +461,7 @@ class PythonSourceColorizer:
         self.find_line_offsets()
 
         num_lines = self.text.count('\n')+1
-        self.linenum_size = len(`num_lines+1`)
+        self.linenum_size = len(repr(num_lines+1))
         
         # Call the tokenizer, and send tokens to our `tokeneater()`
         # method.  If anything goes wrong, then fall-back to using
