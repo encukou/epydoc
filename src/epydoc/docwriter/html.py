@@ -163,12 +163,17 @@ def strip_indent(s):
     that amount of indentation from all lines in C{s}.
     """
     # Strip indentation from the template.
-    minindent = sys.maxint
+    minindent = None
     lines = s.split('\n')
     for line in lines:
         stripline = line.lstrip()
         if stripline:
-            minindent = min(minindent, len(line)-len(stripline))
+            if minindent is None:
+                minindent = len(line)-len(stripline)
+            else:
+                minindent = min(minindent, len(line)-len(stripline))
+    if minindent is None:
+        return s
     return '\n'.join([l[minindent:] for l in lines])
 
 ######################################################################

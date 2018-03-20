@@ -936,16 +936,19 @@ def unindent_docstring(docstring):
     lines = docstring.expandtabs().split('\n')
 
     # Find minimum indentation of any non-blank lines after first line.
-    margin = sys.maxint
+    margin = None
     for line in lines[1:]:
         content = len(line.lstrip())
         if content:
             indent = len(line) - content
-            margin = min(margin, indent)
+            if margin is None:
+                margin = indent
+            else:
+                margin = min(margin, indent)
     # Remove indentation.
     if lines:
         lines[0] = lines[0].lstrip()
-    if margin < sys.maxint:
+    if margin is not None:
         for i in range(1, len(lines)): lines[i] = lines[i][margin:]
     # Remove any trailing (but not leading!) blank lines.
     while lines and not lines[-1]:
