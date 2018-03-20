@@ -31,7 +31,7 @@ __docformat__ = 'epytext en'
 # rather than using isinstance, because subclasses might override
 # __repr__.
 
-import types, re
+import re
 import epydoc.apidoc
 from epydoc.util import decode_with_backslashreplace
 from epydoc.util import plaintext_to_html, plaintext_to_latex
@@ -180,7 +180,7 @@ class PyvalColorizer:
         
         if pyval is None or pyval is True or pyval is False:
             self._output(unicode(pyval), self.CONST_TAG, state)
-        elif pyval_type in (int, float, long, types.ComplexType):
+        elif pyval_type in (int, float, long, complex):
             self._output(unicode(pyval), self.NUMBER_TAG, state)
         elif pyval_type is str:
             self._colorize_str(pyval, state, '', 'string-escape')

@@ -107,7 +107,7 @@ __docformat__ = 'epytext en'
 #   4. helpers
 #   5. testing
 
-import re, types, sys, os.path
+import re, sys, os.path
 from epydoc.markup import *
 from epydoc.util import wordwrap, plaintext_to_html, plaintext_to_latex
 from epydoc.markup.doctest import doctest_to_html, doctest_to_latex

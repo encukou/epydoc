@@ -38,7 +38,7 @@ __docformat__ = 'epytext en'
 ## Imports
 ######################################################################
 
-import types, re, os.path, pickle
+import re, os.path, pickle
 from epydoc import log
 import epydoc
 from epydoc.util import decode_with_backslashreplace, py_src_filename
@@ -168,7 +168,7 @@ class DottedName:
         identifiers selected by the slice.  If C{i} is an empty slice,
         return an empty list (since empty C{DottedName}s are not valid).
         """
-        if isinstance(i, types.SliceType):
+        if isinstance(i, slice):
             pieces = self._identifiers[i.start:i.stop]
             if pieces: return DottedName(pieces)
             else: return []
@@ -2140,13 +2140,13 @@ def pp_apidoc(api_doc, doublespace=0, depth=5, exclude=(), include=(),
         if doublespace: s += '\n |'
         s += '\n +- %s' % field
 
-        if (isinstance(fieldval, types.ListType) and
+        if (isinstance(fieldval, list) and
             len(fieldval)>0 and
             isinstance(fieldval[0], APIDoc)):
             s += _pp_list(api_doc, fieldval, doublespace, depth,
                           exclude, include, backpointers,
                           (field is fields[-1]))
-        elif (isinstance(fieldval, types.DictType) and
+        elif (isinstance(fieldval, dict) and
               len(fieldval)>0 and 
               isinstance(fieldval.values()[0], APIDoc)):
             s += _pp_dict(api_doc, fieldval, doublespace, 
