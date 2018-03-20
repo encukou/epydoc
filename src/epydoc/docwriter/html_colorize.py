@@ -501,7 +501,7 @@ class PythonSourceColorizer:
 
         return html
 
-    def tokeneater(self, toktype, toktext, (srow,scol), (erow,ecol), line):
+    def tokeneater(self, toktype, toktext, spos, epos, line):
         """
         A callback function used by C{tokenize.tokenize} to handle
         each token in the module.  C{tokeneater} collects tokens into
@@ -509,6 +509,8 @@ class PythonSourceColorizer:
         been formed; and then calls L{handle_line} to process that line.
         """
         # If we encounter any errors, then just give up.
+        srow, scol = spos
+        erow, ecol = epos
         if toktype == token.ERRORTOKEN:
             raise tokenize.TokenError(toktype)
 
