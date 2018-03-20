@@ -478,7 +478,7 @@ def report_errors(api_doc, docindex, parse_errors, field_warnings):
     # 'in' or '==', then a user __cmp__ method might raise an
     # exception, or lie.
     if isinstance(api_doc, ValueDoc) and api_doc != module:
-        if module not in (None, UNKNOWN) and module.pyval is exceptions:
+        if module not in (None, UNKNOWN):
             return
         for builtin_val in builtins.__dict__.values():
             if builtin_val is api_doc.pyval:

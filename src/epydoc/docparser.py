@@ -64,7 +64,6 @@ import codecs
 # API documentation encoding:
 from epydoc.apidoc import *
 # For looking up the docs of builtins:
-import exceptions
 import epydoc.docintrospecter 
 # Misc utility functions:
 from epydoc.util import *
@@ -207,7 +206,7 @@ def parse_docs(filename=None, name=None, context=None, is_script=False):
         C{name} argument is used.
     @rtype: L{ValueDoc}
     """
-    # Always introspect __builtins__ & exceptions (e.g., in case
+    # Always introspect __builtins__ (e.g., in case
     # they're used as base classes.)
     epydoc.docintrospecter.introspect_docs(builtins)
     
