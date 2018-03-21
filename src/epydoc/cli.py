@@ -73,12 +73,11 @@ from epydoc import log
 from epydoc.util import wordwrap, run_subprocess, RunSubprocessError
 from epydoc.util import plaintext_to_html, TerminalController
 from epydoc.apidoc import UNKNOWN
-import ConfigParser
 from epydoc.docwriter.html_css import STYLESHEETS as CSS_STYLESHEETS
 from epydoc.docwriter.latex_sty import STYLESHEETS as STY_STYLESHEETS
 from epydoc.docwriter.dotgraph import DotGraph
 from epydoc.docwriter.dotgraph import COLOR as GRAPH_COLOR
-from epydoc.compat import basestring
+from epydoc.compat import basestring, ConfigParser
 
 # This module is only available if Docutils are in the system
 try:

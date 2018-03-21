@@ -25,3 +25,10 @@ except AttributeError:
 
 
 PY3 = sys.version_info >= (3, 0)
+
+
+try:
+    from configparser import ConfigParser
+except ImportError:
+    # Python 2
+    from ConfigParser import ConfigParser
