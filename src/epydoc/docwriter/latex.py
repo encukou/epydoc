@@ -17,13 +17,11 @@ __docformat__ = 'epytext en'
 import os.path, sys, time, re, textwrap, codecs
 
 from epydoc.apidoc import *
-from epydoc.compat import *
 import epydoc
 from epydoc import log
 from epydoc import markup
 from epydoc.util import plaintext_to_latex
 import epydoc.markup
-from epydoc.docwriter.dotgraph import *
 from epydoc.docwriter.latex_sty import STYLESHEETS
 
 class LatexWriter:

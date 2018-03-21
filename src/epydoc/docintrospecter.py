@@ -36,10 +36,6 @@ from epydoc import log
 from epydoc.util import *
 # For extracting encoding for docstrings:
 import epydoc.docparser
-# Builtin values
-import __builtin__
-# Backwards compatibility
-from epydoc.compat import * 
 
 ######################################################################
 ## Caches
