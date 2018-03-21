@@ -44,6 +44,11 @@ try:
 except NameError:
     long = int
 
+try:
+    unicode
+except NameError:
+    unicode = str
+
 def is_re_pattern(pyval):
     return type(pyval).__name__ == 'SRE_Pattern'
 

@@ -38,6 +38,11 @@ from epydoc.util import *
 import epydoc.docparser
 from epydoc.compat import builtins
 
+try:
+    unicode
+except NameError:
+    unicode = str
+
 ######################################################################
 ## Caches
 ######################################################################
