@@ -44,6 +44,10 @@ def main():
             if sys.version_info > (3, 0):
                 # HACK: Convert <u'string'> to <'strings'>
                 string = string.replace("u'", "'")
+                # HACK: Convert exception class name
+                string = string.replace(
+                    'StructuringError:',
+                    'epydoc.markup.epytext.StructuringError:')
             pieces = doctest.DocTestParser.parse(self, string, name)
             for i, val in enumerate(pieces):
                 if (isinstance(val, doctest.Example) and
