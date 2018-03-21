@@ -56,6 +56,8 @@ each error.
 __docformat__ = 'epytext en'
 
 import re, types, sys
+import functools
+
 from epydoc import log
 from epydoc.util import plaintext_to_html, plaintext_to_latex
 import epydoc
@@ -491,6 +493,7 @@ class DocstringLinker:
 ## ParseError exceptions
 ##################################################
 
+@functools.total_ordering
 class ParseError(Exception):
     """
     The base class for errors generated while parsing docstrings.
@@ -584,20 +587,22 @@ class ParseError(Exception):
         else:
             return '<ParseError on line %d>' % (self._linenum+self._offset)
 
-    def __cmp__(self, other):
+    def __eq__(self, other):
         """
         Compare two C{ParseError}s, based on their line number.
-          - Return -1 if C{self.linenum<other.linenum}
-          - Return +1 if C{self.linenum>other.linenum}
-          - Return 0 if C{self.linenum==other.linenum}.
-        The return value is undefined if C{other} is not a
-        ParseError.
-
-        @rtype: C{int}
         """
-        if not isinstance(other, ParseError): return -1000
-        return cmp(self._linenum+self._offset,
-                   other._linenum+other._offset)
+        if not isinstance(other, ParseError): return NotImplemented
+        return self._linenum+self._offset == other._linenum+other._offset
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __lt__(self, other):
+        """
+        Compare two C{ParseError}s, based on their line number.
+        """
+        if not isinstance(other, ParseError): return -NotImplemented
+        return self._linenum+self._offset < other._linenum+other._offset
 
 ##################################################
 ## Misc helpers

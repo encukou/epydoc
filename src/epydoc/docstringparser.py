@@ -30,6 +30,8 @@ __docformat__ = 'epytext en'
 ######################################################################
 
 import re, sys
+import functools
+
 from epydoc import markup
 from epydoc.markup import epytext
 from epydoc.apidoc import *
@@ -43,6 +45,7 @@ from epydoc.compat import builtins, basestring
 # Docstring Fields
 ######################################################################
 
+@functools.total_ordering
 class DocstringField:
     """
     A simple docstring field, which can be used to describe specific
@@ -86,13 +89,16 @@ class DocstringField:
         self.takes_arg = takes_arg
         self.varnames = varnames or []
 
-    def __cmp__(self, other):
-        if not isinstance(other, DocstringField): return -1
-        if self.tags == other.tags:
-            return 0
-        if self.tags < other.tags:
-            return -1
-        return 1
+    def __eq__(self, other):
+        if not isinstance(other, DocstringField): return NotImplemented
+        return self.tags < other.tags
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __lt__(self, other):
+        if not isinstance(other, DocstringField): return NotImplemented
+        return self.tags < other.tags
     
     def __hash__(self):
         return hash(self.tags)

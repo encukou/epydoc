@@ -39,6 +39,8 @@ __docformat__ = 'epytext en'
 ######################################################################
 
 import re, os.path, pickle
+import functools
+
 from epydoc import log
 import epydoc
 from epydoc.util import decode_with_backslashreplace, py_src_filename
@@ -49,6 +51,7 @@ from epydoc.compat import builtins, basestring
 # Dotted Names
 ######################################################################
 
+@functools.total_ordering
 class DottedName:
     """
     A sequence of identifiers, separated by periods, used to name a
@@ -178,16 +181,36 @@ class DottedName:
     def __hash__(self):
         return hash(self._identifiers)
 
-    def __cmp__(self, other):
+    def f__cmp__(self, other):
+        #if not isinstance(other, DottedName):
+        #    raise ValueError((self, other))
+        if self == other:
+            return 0
+        if self < other:
+            return -1
+        return 1
+
+    def __eq__(self, other):
         """
         Compare this dotted name to C{other}.  Two dotted names are
         considered equal if their identifier subsequences are equal.
+        """
+        if not isinstance(other, DottedName):
+            return False
+        return self._identifiers == other._identifiers
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __lt__(self, other):
+        """
+        Compare this dotted name to C{other}.
         Ordering between dotted names is lexicographic, in order of
         identifier from left to right.
         """
         if not isinstance(other, DottedName):
-            return -1
-        return cmp(self._identifiers, other._identifiers)
+            return True
+        return self._identifiers < other._identifiers
 
     def __len__(self):
         """
@@ -289,6 +312,7 @@ default value for all instance variables."""
 # API Documentation Objects: Abstract Base Classes
 ######################################################################
 
+@functools.total_ordering
 class APIDoc(object):
     """
     API documentation information for a single element of a Python
@@ -453,15 +477,18 @@ class APIDoc(object):
         self.__has_been_hashed = True
         return id(self.__dict__)
 
-    def __cmp__(self, other):
-        if not isinstance(other, APIDoc): return -1
-        if self.__dict__ is other.__dict__: return 0
-        if self.canonical_name == other.canonical_name:
-            return -1
-        if self.canonical_name < other.canonical_name:
-            return -1
-        else:
-            return 1
+    def __eq__(self, other):
+        if not isinstance(other, APIDoc): return NotImplemented
+        if self.__dict__ is other.__dict__: return True
+        return False
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __lt__(self, other):
+        if not isinstance(other, APIDoc): return NotImplemented
+        if self.__dict__ is other.__dict__: return False
+        return self.canonical_name < other.canonical_name
 
     def is_detailed(self):
         """
