@@ -456,9 +456,12 @@ class APIDoc(object):
     def __cmp__(self, other):
         if not isinstance(other, APIDoc): return -1
         if self.__dict__ is other.__dict__: return 0
-        name_cmp = cmp(self.canonical_name, other.canonical_name)
-        if name_cmp == 0: return -1
-        else: return name_cmp
+        if self.canonical_name == other.canonical_name:
+            return -1
+        if self.canonical_name < other.canonical_name:
+            return -1
+        else:
+            return 1
 
     def is_detailed(self):
         """

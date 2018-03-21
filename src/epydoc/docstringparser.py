@@ -88,7 +88,11 @@ class DocstringField:
 
     def __cmp__(self, other):
         if not isinstance(other, DocstringField): return -1
-        return cmp(self.tags, other.tags)
+        if self.tags == other.tags:
+            return 0
+        if self.tags < other.tags:
+            return -1
+        return 1
     
     def __hash__(self):
         return hash(self.tags)
