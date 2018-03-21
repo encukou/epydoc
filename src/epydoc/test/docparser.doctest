@@ -338,6 +338,8 @@ blocks:
            +- name = u'while_gated'
 
     >>> # reset the globals:
+    >>> try: from importlib import reload
+    ... except: pass
     >>> reload(epydoc.docparser) and None
 
 Note that when DocParser examines a for block, it also creates a
