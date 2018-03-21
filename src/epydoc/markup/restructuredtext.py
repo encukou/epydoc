@@ -307,10 +307,10 @@ class _SummaryExtractor(NodeVisitor):
         # Extract the first sentence.
         for child in node:
             if isinstance(child, docutils.nodes.Text):
-                m = self._SUMMARY_RE.match(child.data)
+                m = self._SUMMARY_RE.match(child)
                 if m:
                     summary_pieces.append(docutils.nodes.Text(m.group(1)))
-                    other = child.data[m.end():]
+                    other = child[m.end():]
                     if other and not other.isspace():
                         self.other_docs = True
                     break
@@ -489,13 +489,13 @@ class _SplitFieldsTranslator(NodeVisitor):
             fbody[0][:] = item[0][1:]
 
             # Remove the separating ":", if present
-            if (len(fbody[0]) > 0 and
-                isinstance(fbody[0][0], docutils.nodes.Text)):
+            Text = docutils.nodes.Text
+            if (len(fbody[0]) > 0 and isinstance(fbody[0][0], Text)):
                 child = fbody[0][0]
-                if child.data[:1] in ':-':
-                    child.data = child.data[1:].lstrip()
-                elif child.data[:2] in (' -', ' :'):
-                    child.data = child.data[2:].lstrip()
+                if child[:1] in ':-':
+                    fbody[0][0] = Text(child[1:].lstrip())
+                elif child[:2] in (' -', ' :'):
+                    fbody[0][0] = Text(child[2:].lstrip())
 
             # Wrap the field body, and add a new field
             self._add_field(tagname, arg, fbody)
