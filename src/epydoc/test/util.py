@@ -13,6 +13,8 @@ from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import tempfile, re, os, os.path, textwrap, sys
+import shutil
+
 from epydoc.docbuilder import build_doc, build_doc_index
 from epydoc.docparser import parse_docs
 from epydoc.docintrospecter import introspect_docs
@@ -161,7 +163,11 @@ def testencoding(s, introspect=True, parse=True, debug=False):
     writer = HTMLWriter(docindex, mark_docstrings=True)
     writer.write(tmp_dir)
     for file in os.listdir(tmp_dir):
-        os.unlink(os.path.join(tmp_dir,file))
+        fullname = os.path.join(tmp_dir,file)
+        if file == '__pycache__':
+            shutil.rmtree(fullname)
+        else:
+            os.unlink(fullname)
     os.rmdir(tmp_dir)
 
     # Restore the HTMLWriter class to its original state.
@@ -181,6 +187,8 @@ def write_pystring_to_tmp_dir(s):
 def cleanup_tmp_dir(tmp_dir):
     os.unlink(os.path.join(tmp_dir, 'epydoc_test.py'))
     try: os.unlink(os.path.join(tmp_dir, 'epydoc_test.pyc'))
+    except OSError: pass
+    try: shutil.rmtree(os.path.join(tmp_dir, '__pycache__'))
     except OSError: pass
     os.rmdir(tmp_dir)
     sys.modules.pop('epydoc_test', None)
