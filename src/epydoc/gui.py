@@ -29,6 +29,7 @@ Usage::
 same format as the CLI).
 """
 from __future__ import print_function
+from __future__ import division
 __docformat__ = 'epytext en'
 
 import sys, os.path, re, glob
@@ -187,7 +188,7 @@ class GUILogger(log.Logger):
         if self._cancel[0]: exit_thread()
         i = self._stage - 1
         p = ((sum(self._STAGES[:i]) + percent*self._STAGES[i]) /
-             float(sum(self._STAGES)))
+             sum(self._STAGES))
         self._progress[0] = p
         
     def read(self):

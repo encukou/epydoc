@@ -22,6 +22,7 @@ Predefined CSS stylesheets for the HTML outputter (L{epydoc.docwriter.html}).
       - C{grayscale}: Grayscale black on white.
       - C{none}: An empty stylesheet.
 """
+from __future__ import division
 __docformat__ = 'epytext en'
 
 import re

@@ -52,6 +52,7 @@ perform individual steps in the creation of the documentation.
     _var_shadows_self, _fix_self_shadowing_var, _unreachable_name_for
 @group Inheritance: inherit_docs, _inherit_info
 """
+from __future__ import division
 __docformat__ = 'epytext en'
 
 ######################################################################
@@ -257,7 +258,7 @@ def build_doc_index(items, introspect=True, parse=True, add_submodules=True,
     # Assign canonical names.
     log.start_progress('Indexing documentation')
     for i, val_doc in enumerate(docindex.root):
-        log.progress(float(i)/len(docindex.root), val_doc.canonical_name)
+        log.progress(i / len(docindex.root), val_doc.canonical_name)
         assign_canonical_names(val_doc, val_doc.canonical_name, docindex)
     log.end_progress()
 
@@ -267,7 +268,7 @@ def build_doc_index(items, introspect=True, parse=True, add_submodules=True,
         imports=False, submodules=False, packages=False, subclasses=False))
     for i, val_doc in enumerate(valdocs):
         if isinstance(val_doc, ClassDoc):
-            percent = float(i)/len(valdocs)
+            percent = i / len(valdocs)
             log.progress(percent, val_doc.canonical_name)
             find_overrides(val_doc)
     log.end_progress()
@@ -299,7 +300,7 @@ def build_doc_index(items, introspect=True, parse=True, add_submodules=True,
     log.start_progress('Inheriting documentation')
     for i, val_doc in enumerate(valdocs):
         if isinstance(val_doc, ClassDoc):
-            percent = float(i)/len(valdocs)
+            percent = i / len(valdocs)
             log.progress(percent, val_doc.canonical_name)
             inherit_docs(val_doc, inherit_from_object)
     log.end_progress()
@@ -308,7 +309,7 @@ def build_doc_index(items, introspect=True, parse=True, add_submodules=True,
     log.start_progress('Sorting & Grouping')
     for i, val_doc in enumerate(valdocs):
         if isinstance(val_doc, NamespaceDoc):
-            percent = float(i)/len(valdocs)
+            percent = i / len(valdocs)
             log.progress(percent, val_doc.canonical_name)
             val_doc.init_sorted_variables()
             val_doc.init_variable_groups()
@@ -323,7 +324,7 @@ def _report_valdoc_progress(i, val_doc, val_docs):
     if (isinstance(val_doc, (ModuleDoc, ClassDoc)) and
         val_doc.canonical_name is not UNKNOWN and
         not val_doc.canonical_name[0].startswith('??')):
-        log.progress(float(i)/len(val_docs), val_doc.canonical_name)
+        log.progress(i / len(val_docs), val_doc.canonical_name)
 
 #/////////////////////////////////////////////////////////////////
 # Pre-Import
@@ -710,7 +711,7 @@ class _ProgressEstimator:
 
     def progress(self):
         total = sum(self.est_totals.values())
-        return float(self.complete) / total
+        return self.complete / total
 
     def revise_estimate(self, pkg_item, modules, subpackages):
         del self.est_totals[pkg_item]

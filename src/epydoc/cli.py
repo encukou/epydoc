@@ -62,6 +62,7 @@ levels are currently defined as follows::
   2               list            yes            yes       yes
 """
 from __future__ import print_function
+from __future__ import division
 __docformat__ = 'epytext en'
 
 import sys, os, time, re, pickle, textwrap, tempfile, shutil
@@ -1427,10 +1428,10 @@ class ConsoleLogger(log.Logger):
                 sys.stdout.flush()
                 
         elif self._progress_mode == 'bar':
-            dots = int((self.term.COLS/2-8)*percent)
-            background = '-'*(self.term.COLS/2-8)
-            if len(message) > self.term.COLS/2:
-                message = message[:self.term.COLS/2-3]+'...'
+            dots = int((self.term.COLS//2-8)*percent)
+            background = '-'*(self.term.COLS//2-8)
+            if len(message) > self.term.COLS//2:
+                message = message[:self.term.COLS//2-3]+'...'
             sys.stdout.write(self.term.CLEAR_LINE + '%3d%% '%(100*percent) +
                              self.term.GREEN + '[' + self.term.BOLD +
                              '='*dots + background[dots:] + self.term.NORMAL +
@@ -1484,9 +1485,9 @@ class ConsoleLogger(log.Logger):
     def _timestr(self, dt):
         dt = int(dt)
         if dt >= 3600:
-            return '%d:%02d:%02d' % (dt/3600, dt%3600/60, dt%60)
+            return '%d:%02d:%02d' % (dt//3600, dt%3600//60, dt%60)
         else:
-            return '%02d:%02d' % (dt/60, dt%60)
+            return '%02d:%02d' % (dt//60, dt%60)
 
     def start_progress(self, header=None):
         if self._progress is not None:
@@ -1535,7 +1536,7 @@ class UnifiedProgressConsoleLogger(ConsoleLogger):
         #p = float(self.stage-1+percent)/self.stages
         i = self.stage-1
         p = ((sum(self.stages[:i]) + percent*self.stages[i]) /
-             float(sum(self.stages)))
+             sum(self.stages))
 
         if message is UNKNOWN: message = None
         if message: message = '%s: %s' % (self.task, message)
@@ -1649,9 +1650,9 @@ class HTMLLogger(log.Logger):
         if secs < 60:
             return '%d seconds' % secs
         if secs < 3600:
-            return '%d minutes, %d seconds' % (secs/60, secs%60)
+            return '%d minutes, %d seconds' % (secs//60, secs%60)
         else:
-            return '%d hours, %d minutes' % (secs/3600, secs%3600)
+            return '%d hours, %d minutes' % (secs//3600, secs%3600)
             
 
 ######################################################################
