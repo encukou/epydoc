@@ -19,7 +19,7 @@ from epydoc import log
 from epydoc.util import py_src_filename
 from epydoc.apidoc import *
 import tokenize, token, cgi, keyword
-from epydoc.compat import PY3
+from epydoc.compat import PY3, unicode
 try:
     from StringIO import StringIO
 except ImportError:
@@ -759,6 +759,8 @@ class PythonSourceColorizer:
             elif url:
                 if isinstance(url, unicode):
                     url = url.encode('ascii', 'xmlcharrefreplace')
+                    if PY3:
+                        url = url.decode('ascii')
                 s += ('<a%s%s href="%s">' %
                       (tooltip_html, css_class_html, url))
             elif css_class_html or tooltip_html:
