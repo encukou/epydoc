@@ -44,10 +44,13 @@ def main():
             if sys.version_info > (3, 0):
                 # HACK: Convert <u'string'> to <'strings'>
                 string = string.replace("u'", "'")
-                # HACK: Convert exception class name
+                # HACK: Convert exception class names
                 string = string.replace(
                     'StructuringError:',
                     'epydoc.markup.epytext.StructuringError:')
+                string = string.replace(
+                    'InvalidDottedName:',
+                    'epydoc.apidoc.DottedName.InvalidDottedName:')
             pieces = doctest.DocTestParser.parse(self, string, name)
             for i, val in enumerate(pieces):
                 if (isinstance(val, doctest.Example) and
