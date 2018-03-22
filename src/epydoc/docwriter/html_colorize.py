@@ -419,8 +419,9 @@ class PythonSourceColorizer:
         """
         Construct the L{line_offsets} table from C{self.text}.
         """
-        # line 0 doesn't exist; line 1 starts at char offset 0.
-        self.line_offsets = [None, 0]
+        # line 0 doesn't exist but some special tokens report it; line 1
+        # starts at char offset 0.
+        self.line_offsets = [0, 0]
         # Find all newlines in `text`, and add an entry to
         # line_offsets for each one.
         pos = self.text.find('\n')
