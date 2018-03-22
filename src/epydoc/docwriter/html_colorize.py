@@ -495,20 +495,25 @@ class PythonSourceColorizer:
         except tokenize.TokenError as ex:
             html = self.text
 
-        # Decode the html string into unicode, and then encode it back
+        if not PY3:
+            # Decode the html string into unicode
+            try:
+                try:
+                    html = html.decode(coding)
+                except LookupError:
+                    html = html.decode('iso-8859-1')
+            except UnicodeDecodeError as e:
+                log.warning(
+                    "Unicode error while generating syntax-highlighted "
+                    "source code: %s (%s)" % (e, self.module_filename))
+                html = html.decode(coding, 'ignore')
+        # Encode the HTML back
         # into ascii, replacing any non-ascii characters with xml
         # character references.
-        try:
-            html = html.decode(coding).encode('ascii', 'xmlcharrefreplace')
-        except LookupError:
-            coding = 'iso-8859-1'
-            html = html.decode(coding).encode('ascii', 'xmlcharrefreplace')
-        except UnicodeDecodeError as e:
-            log.warning("Unicode error while generating syntax-highlighted "
-                        "source code: %s (%s)" % (e, self.module_filename))
-            html = html.decode(coding, 'ignore').encode(
-                'ascii', 'xmlcharrefreplace')
-            
+        html = html.encode('ascii', 'xmlcharrefreplace')
+        if PY3:
+            # And finally, in Python 3, return text
+            html = html.decode('ascii')
 
         # Call expandto.
         html += PYSRC_EXPANDTO_JAVASCRIPT
