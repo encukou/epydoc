@@ -146,15 +146,15 @@ def testencoding(s, introspect=True, parse=True, debug=False):
     output, and displays them.  (In order to extract & display all
     docstrings, it monkey-patches the HMTLwriter.docstring_to_html()
     method.)"""
+    assert isinstance(s, bytes)
     # Monkey-patch docstring_to_html
     original_docstring_to_html = HTMLWriter.docstring_to_html
     HTMLWriter.docstring_to_html = print_docstring_as_html
-    
     # Write s to a temporary file.
     tmp_dir = tempfile.mkdtemp()
     path = os.path.join(tmp_dir, 'enc_test.py')
-    out = open(path, 'w')
-    out.write(textwrap.dedent(s))
+    out = open(path, 'wb')
+    out.write(textwrap.dedent(s.decode('latin-1')).encode('latin-1'))
     out.close()
     # Build docs for it
     docindex = build_doc_index([path], introspect, parse)

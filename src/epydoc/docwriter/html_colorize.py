@@ -23,7 +23,7 @@ from epydoc.compat import PY3
 try:
     from StringIO import StringIO
 except ImportError:
-    from io import StringIO
+    from io import StringIO, BytesIO
 
 ######################################################################
 ## Python source colorizer
@@ -457,7 +457,10 @@ class PythonSourceColorizer:
         self.doclink_targets_cache = {}
 
         # Load the module's text.
-        self.text = open(self.module_filename).read()
+        if PY3:
+            self.text = tokenize.open(self.module_filename).read()
+        else:
+            self.text = open(self.module_filename).read()
         self.text = self.text.expandtabs(self.tab_width).rstrip()+'\n'
 
         # Construct the line_offsets table.
@@ -465,29 +468,31 @@ class PythonSourceColorizer:
 
         num_lines = self.text.count('\n')+1
         self.linenum_size = len(repr(num_lines+1))
-        
+
+        # Check for a unicode encoding declaration.
+        m = self.UNICODE_CODING_RE.match(self.text)
+        if m: coding = m.group(1)
+        elif PY3: coding = 'utf-8'
+        else: coding = 'iso-8859-1'
+
         # Call the tokenizer, and send tokens to our `tokeneater()`
         # method.  If anything goes wrong, then fall-back to using
         # the input text as-is (with no colorization).
         try:
             output = StringIO()
             self.out = output.write
-            _readline = StringIO(self.text).readline
             if PY3:
+                _readline = BytesIO(self.text.encode(coding)).readline
                 for args in tokenize.tokenize(_readline):
                     self.tokeneater(*args)
             else:
+                _readline = StringIO(self.text).readline
                 tokenize.tokenize(_readline, self.tokeneater)
             html = output.getvalue()
             if self.has_decorators:
                 html = self._FIX_DECORATOR_RE.sub(r'\2\1', html)
         except tokenize.TokenError as ex:
             html = self.text
-
-        # Check for a unicode encoding declaration.
-        m = self.UNICODE_CODING_RE.match(self.text)
-        if m: coding = m.group(1)
-        else: coding = 'iso-8859-1'
 
         # Decode the html string into unicode, and then encode it back
         # into ascii, replacing any non-ascii characters with xml
