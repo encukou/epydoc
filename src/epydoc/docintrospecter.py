@@ -464,7 +464,7 @@ def introspect_routine(routine, routine_doc, module_name=None):
             routine_doc.posarg_defaults = routine_doc.posarg_defaults[1:]
 
         # Set the routine's line number.
-        if hasattr(func, 'func_code'):
+        if hasattr(func, '__code__'):
             routine_doc.lineno = func.__code__.co_firstlineno
 
     else:
@@ -737,7 +737,7 @@ def _find_function_module(func):
     # two different names for the same file, then this helps.
     for module in sys.modules.values():
         if (hasattr(module, '__dict__') and
-            hasattr(func, 'func_globals') and
+            hasattr(func, '__globals__') and
             func.__globals__ is module.__dict__):
             return module.__name__
     return None
