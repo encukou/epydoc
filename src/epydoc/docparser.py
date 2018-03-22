@@ -2132,18 +2132,21 @@ def get_module_encoding(filename):
     """
     @see: U{PEP 263<http://www.python.org/peps/pep-0263.html>}
     """
-    module_file = open(filename, 'rU')
+    module_file = open(filename, 'rUb')
     try:
         lines = [module_file.readline() for i in range(2)]
-        if lines[0].startswith('\xef\xbb\xbf'):
+        if lines[0].startswith(b'\xef\xbb\xbf'):
             return 'utf-8'
         else:
             for line in lines:
-                m = re.search("coding[:=]\s*([-\w.]+)", line)
-                if m: return m.group(1)
+                m = re.search(b"coding[:=]\s*([-\w.]+)", line)
+                if m: return m.group(1).decode('ascii')
                 
         # Fall back on Python's default encoding.
-        return 'iso-8859-1' # aka 'latin-1'
+        if PY3:
+            return 'utf-8'
+        else:
+            return 'iso-8859-1' # aka 'latin-1'
     finally:
         module_file.close()
         
