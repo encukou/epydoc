@@ -19,6 +19,7 @@ from epydoc import log
 from epydoc.util import py_src_filename
 from epydoc.apidoc import *
 import tokenize, token, cgi, keyword
+from epydoc.compat import PY3
 try:
     from StringIO import StringIO
 except ImportError:
@@ -471,7 +472,12 @@ class PythonSourceColorizer:
         try:
             output = StringIO()
             self.out = output.write
-            tokenize.tokenize(StringIO(self.text).readline, self.tokeneater)
+            _readline = StringIO(self.text).readline
+            if PY3:
+                for args in tokenize.tokenize(_readline):
+                    self.tokeneater(*args)
+            else:
+                tokenize.tokenize(_readline, self.tokeneater)
             html = output.getvalue()
             if self.has_decorators:
                 html = self._FIX_DECORATOR_RE.sub(r'\2\1', html)
