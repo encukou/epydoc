@@ -430,11 +430,11 @@ def introspect_routine(routine, routine_doc, module_name=None):
     
     # Extract the underying function
     if isinstance(routine, MethodType):
-        func = routine.im_func
+        func = routine.__func__
     elif isinstance(routine, staticmethod):
         func = routine.__get__(0)
     elif isinstance(routine, classmethod):
-        func = routine.__get__(0).im_func
+        func = routine.__get__(0).__func__
     else:
         func = routine
 
@@ -459,13 +459,13 @@ def introspect_routine(routine, routine_doc, module_name=None):
                 routine_doc.posarg_defaults[i+offset] = default_val
 
         # If it's a bound method, then strip off the first argument.
-        if isinstance(routine, MethodType) and routine.im_self is not None:
+        if isinstance(routine, MethodType) and routine.__self__ is not None:
             routine_doc.posargs = routine_doc.posargs[1:]
             routine_doc.posarg_defaults = routine_doc.posarg_defaults[1:]
 
         # Set the routine's line number.
         if hasattr(func, 'func_code'):
-            routine_doc.lineno = func.func_code.co_firstlineno
+            routine_doc.lineno = func.__code__.co_firstlineno
 
     else:
         # [XX] I should probably use UNKNOWN here??
@@ -645,15 +645,15 @@ def get_canonical_name(value, strict=False):
             dotted_name = DottedName(value.__module__, value.__name__,
                                      strict=strict)
             
-    elif (inspect.ismethod(value) and value.im_self is not None and
-          value.im_class is ClassType and
+    elif (inspect.ismethod(value) and value.__self__ is not None and
+          value.__self__.__class__ is ClassType and
           not value.__name__.startswith('<')): # class method.
-        class_name = get_canonical_name(value.im_self)
+        class_name = get_canonical_name(value.__self__)
         if class_name is UNKNOWN: return UNKNOWN
         dotted_name = DottedName(class_name, value.__name__, strict=strict)
     elif (inspect.ismethod(value) and
           not value.__name__.startswith('<')):
-        class_name = get_canonical_name(value.im_class)
+        class_name = get_canonical_name(value.__self__.__class__)
         if class_name is UNKNOWN: return UNKNOWN
         dotted_name = DottedName(class_name, value.__name__, strict=strict)
     elif (isinstance(value, FunctionType) and
@@ -704,11 +704,11 @@ def get_containing_module(value):
         return DottedName(value.__name__)
     elif isclass(value):
         return DottedName(value.__module__)
-    elif (inspect.ismethod(value) and value.im_self is not None and
-          value.im_class is ClassType): # class method.
-        return DottedName(value.im_self.__module__)
+    elif (inspect.ismethod(value) and value.__self__ is not None and
+          value.__self__.__class__ is ClassType): # class method.
+        return DottedName(value.__self__.__module__)
     elif inspect.ismethod(value):
-        return DottedName(value.im_class.__module__)
+        return DottedName(value.__self__.__class__.__module__)
     elif inspect.isroutine(value):
         module = _find_function_module(value)
         if module is None: return None
@@ -738,7 +738,7 @@ def _find_function_module(func):
     for module in sys.modules.values():
         if (hasattr(module, '__dict__') and
             hasattr(func, 'func_globals') and
-            func.func_globals is module.__dict__):
+            func.__globals__ is module.__dict__):
             return module.__name__
     return None
 
