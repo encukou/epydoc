@@ -21,6 +21,7 @@ from epydoc.docintrospecter import introspect_docs
 from epydoc.apidoc import ClassDoc, RoutineDoc
 from epydoc.markup import ParsedDocstring
 from epydoc.docwriter.html import HTMLWriter
+from epydoc.compat import PY3
 
 ######################################################################
 #{ Test Functions
@@ -214,7 +215,10 @@ def print_docstring_as_html(self, parsed_docstring, *varargs, **kwargs):
     """
     s = parsed_docstring.to_html(None).strip()
     s = s.encode('ascii', 'xmlcharrefreplace')
-    s = remove_surrogates(s)
+    if PY3:
+        s = s.decode('utf-8')
+    else:
+        s = remove_surrogates(s)
     print(s)
     return ''
 
