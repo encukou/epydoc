@@ -299,9 +299,20 @@ class _Sentinel:
         self.name = name
     def __repr__(self):
         return '<%s>' % self.name
-    def __nonzero__(self):
+    def __bool__(self):
         raise ValueError('Sentinel value <%s> can not be used as a boolean' %
                          self.name)
+
+    __nonzero__ = __bool__  # Python 2
+
+    def __lt__(self, other):
+        return False
+    def __gt__(self, other):
+        return False
+    def __le__(self, other):
+        return self == other
+    def __ge__(self, other):
+        return self == other
 
 UNKNOWN = _Sentinel('UNKNOWN')
 """A special value used to indicate that a given piece of
