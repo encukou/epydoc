@@ -115,7 +115,8 @@ def runintrospecter(s, attribs='', introspect=None, exclude=''):
     if introspect is None:
         import epydoc_test as val
     else:
-        exec("from epydoc_test import %s as val" % introspect)
+        import epydoc_test
+        val = getattr(epydoc_test, introspect)
     del sys.path[0]
     # Introspect it.
     val_doc = introspect_docs(val)
