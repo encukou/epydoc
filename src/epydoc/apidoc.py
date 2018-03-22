@@ -1368,8 +1368,9 @@ class ClassDoc(NamespaceDoc):
                 if (not isinstance(base, ClassDoc) or
                     base.proxy_for is not None):
                     self._report_bad_base(base)
-        w = [warn_about_bad_bases]*len(bases)
-        return self._c3_merge([[self]] + map(ClassDoc._c3_mro, bases, w) +
+        return self._c3_merge([[self]] +
+                              [ClassDoc._c3_mro(b, warn_about_bad_bases)
+                               for b in bases] +
                               [list(bases)])
 
     def _report_bad_base(self, base):
