@@ -40,3 +40,8 @@ except ImportError:
     # Python 2
     from urllib import quote as url_quote
     from urllib import unquote as url_unquote
+
+try:
+    unicode = builtins.unicode
+except AttributeError:
+    unicode = str
