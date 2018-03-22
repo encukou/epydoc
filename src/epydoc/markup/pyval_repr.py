@@ -192,7 +192,7 @@ class PyvalColorizer:
             self._output(unicode(pyval), self.CONST_TAG, state)
         elif pyval_type in (int, float, long, complex):
             self._output(unicode(pyval), self.NUMBER_TAG, state)
-        elif pyval_type is str:
+        elif pyval_type is bytes:
             self._colorize_str(pyval, state, '', 'string-escape')
         elif pyval_type is unicode:
             if self.ESCAPE_UNICODE:
@@ -498,7 +498,7 @@ class PyvalColorizer:
         `self.maxlines`, then raise a `_Maxlines` exception.
         """
         # Make sure the string is unicode.
-        if isinstance(s, str):
+        if isinstance(s, bytes):
             s = decode_with_backslashreplace(s)
         
         # Split the string into segments.  The first segment is the
