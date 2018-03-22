@@ -1733,7 +1733,7 @@ class HTMLWriter:
     def write_images(self, directory):
         for (name, data) in self.IMAGES.items():
             f = open(os.path.join(directory, name), 'wb')
-            f.write(base64.decodestring(data))
+            f.write(base64.decodestring(data.encode('ascii')))
             f.close()
 
     #////////////////////////////////////////////////////////////
