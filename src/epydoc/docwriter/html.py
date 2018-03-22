@@ -16,7 +16,7 @@ from __future__ import print_function
 __docformat__ = 'epytext en'
 
 import re, os, sys, codecs, sre_constants, pprint, base64
-import urllib
+
 from epydoc.apidoc import *
 import epydoc.docstringparser
 import time, epydoc, epydoc.markup, epydoc.markup.epytext
@@ -27,7 +27,7 @@ from epydoc.docwriter.html_help import HTML_HELP
 from epydoc.docwriter.dotgraph import *
 from epydoc import log
 from epydoc.util import plaintext_to_html, is_src_filename
-from epydoc.compat import builtins, basestring
+from epydoc.compat import builtins, basestring, url_quote, url_unquote
 
 ######################################################################
 ## Template Compiler
@@ -646,15 +646,15 @@ class HTMLWriter:
             self._write(self.write_toc, directory, 'toc.html')
             self._write(self.write_project_toc, directory, 'toc-everything.html')
             for doc in self.module_list:
-                filename = 'toc-%s' % urllib.unquote(self.url(doc))
+                filename = 'toc-%s' % url_unquote(self.url(doc))
                 self._write(self.write_module_toc, directory, filename, doc)
 
         # Write the object documentation.
         for doc in self.module_list:
-            filename = urllib.unquote(self.url(doc))
+            filename = url_unquote(self.url(doc))
             self._write(self.write_module, directory, filename, doc)
         for doc in self.class_list:
-            filename = urllib.unquote(self.url(doc))
+            filename = url_unquote(self.url(doc))
             self._write(self.write_class, directory, filename, doc)
 
         # Write source code files.
@@ -672,7 +672,7 @@ class HTMLWriter:
                 doc_list.sort()
             # Write the source code for each module.
             for doc in self.modules_with_sourcecode:
-                filename = urllib.unquote(self.pysrc_url(doc))
+                filename = url_unquote(self.pysrc_url(doc))
                 self._write(self.write_sourcecode, directory, filename, doc,
                             name_to_docs)
 
@@ -3205,11 +3205,11 @@ class HTMLWriter:
         # Module: <canonical_name>-module.html
         if isinstance(obj, ModuleDoc):
             if obj not in self.module_set: return None
-            return urllib.quote('%s'%obj.canonical_name) + '-module.html'
+            return url_quote('%s'%obj.canonical_name) + '-module.html'
         # Class: <canonical_name>-class.html
         elif isinstance(obj, ClassDoc):
             if obj not in self.class_set: return None
-            return urllib.quote('%s'%obj.canonical_name) + '-class.html'
+            return url_quote('%s'%obj.canonical_name) + '-class.html'
         # Variable
         elif isinstance(obj, VariableDoc):
             val_doc = obj.value
@@ -3226,7 +3226,7 @@ class HTMLWriter:
             else:
                 container_url = self.url(obj.container)
                 if container_url is None: return None
-                return '%s#%s' % (container_url, urllib.quote('%s'%obj.name))
+                return '%s#%s' % (container_url, url_quote('%s'%obj.name))
         # Value (other than module or class)
         elif isinstance(obj, ValueDoc):
             container = self.docindex.container(obj)
@@ -3235,7 +3235,7 @@ class HTMLWriter:
             else:
                 container_url = self.url(container)
                 if container_url is None: return None
-                anchor = urllib.quote('%s'%obj.canonical_name[-1])
+                anchor = url_quote('%s'%obj.canonical_name[-1])
                 return '%s#%s' % (container_url, anchor)
         # Dotted name: look up the corresponding APIDoc
         elif isinstance(obj, DottedName):
@@ -3271,7 +3271,7 @@ class HTMLWriter:
         elif isinstance(api_doc, ModuleDoc):
             if api_doc in self.modules_with_sourcecode:
                 return ('%s-pysrc.html' %
-                       urllib.quote('%s' % api_doc.canonical_name))
+                       url_quote('%s' % api_doc.canonical_name))
             else:
                 return None
         else:
@@ -3286,7 +3286,7 @@ class HTMLWriter:
                 return module_pysrc_url
             mname_len = len(module.canonical_name)
             anchor = '%s' % api_doc.canonical_name[mname_len:]
-            return '%s#%s' % (module_pysrc_url, urllib.quote(anchor))
+            return '%s#%s' % (module_pysrc_url, url_quote(anchor))
         
         # We didn't find it:
         return None
